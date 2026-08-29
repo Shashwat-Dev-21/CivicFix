@@ -1,0 +1,11 @@
+$kind: http-request
+name: Upvote
+description: ""
+url: http://localhost:5001/api/issues/6a917616a4b83745346e7dba/upvote
+method: POST
+headers:
+  Authorization: Bearer {{json_web_token_0d69}}
+body:
+  type: json
+  content: ""
+order: 4502135264094634

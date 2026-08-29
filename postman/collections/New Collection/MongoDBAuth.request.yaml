@@ -1,0 +1,13 @@
+$kind: http-request
+name: MongoDBAuth
+url: http://localhost:5001/api/auth/register
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "name": "Test User",
+      "email": "test@example.com",
+      "password": "password123"
+    }
+order: 1827859066187159

@@ -1,0 +1,22 @@
+$kind: http-request
+name: Authorization
+description: ""
+url: http://localhost:5001/api/auth/me
+method: GET
+headers:
+  Authorization: Bearer {{supabase_service_role_api_key_10cg}}
+body:
+  type: json
+  content: ""
+auth:
+  type: jwt
+  credentials:
+    algorithm: HS256
+    isSecretBase64Encoded: false
+    payload: "{}"
+    addTokenTo: header
+    headerPrefix: Bearer
+    queryParamKey: token
+    header: "{}"
+    secret: ""
+order: 4477321483549227

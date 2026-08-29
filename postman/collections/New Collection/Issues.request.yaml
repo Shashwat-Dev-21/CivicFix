@@ -1,0 +1,17 @@
+$kind: http-request
+name: Issues
+description: ""
+url: http://localhost:5001/api/issues
+method: GET
+headers:
+  Authorization: "{{bearer_token_0zmz}}"
+body:
+  type: json
+  content: |-
+    {
+      "title": "Large pothole on MG Road",
+      "description": "Deep pothole causing traffic near the signal",
+      "category": "pothole",
+      "location": "MG Road, near City Signal"
+    }
+order: 4479789761141186

@@ -1,0 +1,14 @@
+$kind: http-request
+name: Comments
+description: ""
+url: http://localhost:5001/api/issues/6a917616a4b83745346e7dba/comments
+method: POST
+headers:
+  Authorization: Bearer {{json_web_token_10cg}}
+body:
+  type: json
+  content: |
+    { 
+        "text": "This has gotten worse after the rain." 
+    } 
+order: 4501406906413506

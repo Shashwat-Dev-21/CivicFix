@@ -1,0 +1,14 @@
+$kind: http-request
+name: Admin-Resolved
+description: ""
+url: http://localhost:5001/api/issues/6a914b6fb5dec01b032b5e63
+method: PUT
+headers:
+  Authorization: Bearer {{supabase_service_role_api_key_18fc}}
+body:
+  type: json
+  content: |-
+    {
+      "status": "resolved"
+    }
+order: 4499696447595401

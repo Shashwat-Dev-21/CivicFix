@@ -1,0 +1,24 @@
+$kind: collection
+name: New Collection
+variables:
+  - key: supabase_service_role_api_key_10cg
+    secret: true
+    disabled: false
+  - key: bearer_token_0zmz
+    secret: true
+    disabled: false
+  - key: json_web_token_10cg
+    secret: true
+    disabled: false
+  - key: supabase_service_role_api_key_18fc
+    secret: true
+    disabled: false
+  - key: bearer_token_0t7y
+    secret: true
+    disabled: false
+  - key: json_web_token_0d69
+    secret: true
+    disabled: false
+  - key: bearer_token_0yub
+    secret: true
+    disabled: false

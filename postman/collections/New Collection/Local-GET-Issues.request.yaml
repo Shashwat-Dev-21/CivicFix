@@ -1,0 +1,6 @@
+$kind: http-request
+name: Local-GET-Issues
+description: ""
+url: http://localhost:5001/api/issues
+method: GET
+order: 4495396624604355
