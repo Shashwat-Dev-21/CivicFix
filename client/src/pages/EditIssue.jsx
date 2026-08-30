@@ -1,22 +1,49 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect, useContext } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import api from '../api/axios';
+import { AuthContext } from '../context/AuthContext';
 
 const inputClass =
   'w-full border border-slate-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400';
 
-const CreateIssue = () => {
+const EditIssue = () => {
+  const { id } = useParams();
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     category: 'pothole',
     location: '',
     imageUrl: '',
+    status: 'reported',
   });
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    const fetchIssue = async () => {
+      try {
+        const res = await api.get(`/issues/${id}`);
+        setFormData({
+          title: res.data.title,
+          description: res.data.description,
+          category: res.data.category,
+          location: res.data.location,
+          imageUrl: res.data.imageUrl || '',
+          status: res.data.status,
+        });
+      } catch (err) {
+        setError('Failed to load issue');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchIssue();
+  }, [id]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -25,22 +52,26 @@ const CreateIssue = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    setLoading(true);
+    setSubmitting(true);
 
     try {
-      await api.post('/issues', formData);
-      navigate('/');
+      await api.put(`/issues/${id}`, formData);
+      navigate(`/issues/${id}`);
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to create issue');
+      setError(err.response?.data?.message || 'Failed to update issue');
     } finally {
-      setLoading(false);
+      setSubmitting(false);
     }
   };
+
+  if (loading) return <p className="text-slate-500">Loading...</p>;
+
+  const isAdmin = user && user.role === 'admin';
 
   return (
     <div className="max-w-lg mx-auto mt-4">
       <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
-        <h2 className="text-xl font-bold text-slate-800 mb-5">Report an Issue</h2>
+        <h2 className="text-xl font-bold text-slate-800 mb-5">Edit Issue</h2>
 
         {error && (
           <p className="bg-red-50 text-red-600 text-sm px-3 py-2 rounded-md mb-4">
@@ -52,7 +83,6 @@ const CreateIssue = () => {
           <input
             type="text"
             name="title"
-            placeholder="Title"
             value={formData.title}
             onChange={handleChange}
             required
@@ -60,7 +90,6 @@ const CreateIssue = () => {
           />
           <textarea
             name="description"
-            placeholder="Description"
             value={formData.description}
             onChange={handleChange}
             required
@@ -82,7 +111,6 @@ const CreateIssue = () => {
           <input
             type="text"
             name="location"
-            placeholder="Location"
             value={formData.location}
             onChange={handleChange}
             required
@@ -91,17 +119,31 @@ const CreateIssue = () => {
           <input
             type="text"
             name="imageUrl"
-            placeholder="Image URL (optional)"
             value={formData.imageUrl}
             onChange={handleChange}
             className={inputClass}
           />
+
+          {isAdmin && (
+            <select
+              name="status"
+              value={formData.status}
+              onChange={handleChange}
+              className={inputClass}
+            >
+              <option value="reported">Reported</option>
+              <option value="acknowledged">Acknowledged</option>
+              <option value="in-progress">In Progress</option>
+              <option value="resolved">Resolved</option>
+            </select>
+          )}
+
           <button
             type="submit"
-            disabled={loading}
+            disabled={submitting}
             className="w-full bg-blue-500 hover:bg-blue-600 disabled:bg-blue-300 text-white py-2 rounded-md text-sm font-medium transition-colors"
           >
-            {loading ? 'Submitting...' : 'Submit Issue'}
+            {submitting ? 'Saving...' : 'Save Changes'}
           </button>
         </form>
       </div>
@@ -109,4 +151,4 @@ const CreateIssue = () => {
   );
 };
 
-export default CreateIssue;
+export default EditIssue;

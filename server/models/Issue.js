@@ -1,4 +1,7 @@
 const mongoose = require('mongoose');
+const validator = require('validator');
+
+
 
 const issueSchema = new mongoose.Schema(
   {
@@ -28,6 +31,12 @@ const issueSchema = new mongoose.Schema(
     imageUrl: {
       type: String,
       default: '',
+      validate: {
+        validator: function (value) {
+          return value === '' || validator.isURL(value);
+        },
+        message: 'Image URL must be a valid URL',
+      },
     },
     reportedBy: {
       type: mongoose.Schema.Types.ObjectId,
