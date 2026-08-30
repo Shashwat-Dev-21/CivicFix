@@ -2,8 +2,6 @@
 
 A full-stack MERN application for reporting and tracking local civic issues — potholes, garbage overflow, broken streetlights, and more — with citizen and admin roles.
 
-🔗 **Live Demo:** https://civic-fix-142e.vercel.app
-🔗 **Backend API:** https://civicfix-yvlc.onrender.com
 
 ---
 
